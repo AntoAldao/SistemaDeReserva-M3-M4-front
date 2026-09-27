@@ -44,8 +44,8 @@ let bookingState = {
 function showView(view) {
   document.getElementById("view-admin").classList.toggle("active-view", view === "admin");
   document.getElementById("view-public").classList.toggle("active-view", view === "public");
-  document.getElementById("nav-admin").classList.toggle("active", view === "admin");
-  document.getElementById("nav-public").classList.toggle("active", view === "public");
+  document.querySelector('[data-cy="nav-admin"]').classList.toggle("active", view === "admin");
+  document.querySelector('[data-cy="nav-public"]').classList.toggle("active", view === "public");
 
   if (view === "public") {
     resetBookingFlow();
