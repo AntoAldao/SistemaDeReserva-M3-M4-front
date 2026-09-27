@@ -1,0 +1,23 @@
+{
+  "name": "sistemadereserva-m3-m4-front",
+  "version": "1.0.0",
+  "description": "Módulos: **M03 - Tipos de Evento** / **M04 - Proceso de Reserva (Booking Público)**",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiandraMalca/SistemaDeReserva-M3-M4-front.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DiandraMalca/SistemaDeReserva-M3-M4-front/issues"
+  },
+  "homepage": "https://github.com/DiandraMalca/SistemaDeReserva-M3-M4-front#readme",
+  "devDependencies": {
+    "cypress": "^16.1.0",
+    "jest": "^30.5.2"
+  }
+}

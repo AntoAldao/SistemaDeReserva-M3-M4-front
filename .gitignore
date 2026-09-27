@@ -1,0 +1,23 @@
+# Dependencias
+node_modules/
+
+# Cypress (artefactos generados automáticamente)
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# Jest / Cobertura de código
+coverage/
+
+# Logs y depuración
+*.log
+npm-debug.log*
+
+# Entorno y variables
+.env
+.env.local
+
+# Archivos del sistema y del editor
+.DS_Store
+Thumbs.db
+.vscode/
