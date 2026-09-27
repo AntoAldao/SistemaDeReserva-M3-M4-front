@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AgendaYA - TP6 Frontend Mínimo (M03 / M04)</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <h1>AgendaYA</h1>
+    <nav class="tabs">
+      <button data-cy="nav-admin" class="tab-btn active" onclick="showView('admin')">Administrador (M03)</button>
+      <button data-cy="nav-public" class="tab-btn" onclick="showView('public')">Reserva Pública (M04)</button>
+    </nav>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- VISTA ADMIN - MÓDULO 3: Tipos de Evento                       -->
+  <!-- ============================================================ -->
+  <main id="view-admin" class="view active-view">
+    <section class="panel">
+      <h2 id="form-title">Crear Tipo de Evento</h2>
+
+      <form data-cy="event-form" id="event-form">
+        <input type="hidden" data-cy="event-id-hidden" id="event-id-hidden" value="" />
+
+        <label>Nombre del Evento *</label>
+        <input type="text" data-cy="event-name-input" id="event-name-input" placeholder="Ej: Consulta Inicial" />
+
+        <label>Duración (minutos) *</label>
+        <select data-cy="event-duration-select" id="event-duration-select">
+          <option value="">Seleccionar...</option>
+          <option value="15">15 min</option>
+          <option value="30">30 min</option>
+          <option value="45">45 min</option>
+          <option value="60">60 min</option>
+        </select>
+
+        <label>Modalidad *</label>
+        <div class="radio-group">
+          <label><input type="radio" name="modalidad" data-cy="event-modality-presencial" value="Presencial" /> Presencial</label>
+          <label><input type="radio" name="modalidad" data-cy="event-modality-virtual" value="Virtual" /> Virtual</label>
+          <label><input type="radio" name="modalidad" data-cy="event-modality-ambas" value="Ambas" /> Ambas</label>
+        </div>
+
+        <label>Tipo de Confirmación *</label>
+        <div class="radio-group">
+          <label><input type="radio" name="confirmacion" data-cy="event-confirmation-auto" value="Automatica" /> Automática</label>
+          <label><input type="radio" name="confirmacion" data-cy="event-confirmation-manual" value="Manual" /> Manual</label>
+        </div>
+
+        <label>Descripción Pública</label>
+        <textarea data-cy="event-description-input" id="event-description-input" placeholder="Descripción visible para el invitado..."></textarea>
+
+        <div data-cy="event-error" id="event-error" class="error-msg hidden"></div>
+
+        <div class="form-actions">
+          <button type="button" data-cy="cancel-edit-event" id="cancel-edit-event" class="btn-secondary hidden" onclick="cancelEdit()">Cancelar</button>
+          <button type="submit" data-cy="submit-event" class="btn-primary">Guardar</button>
+        </div>
+      </form>
+
+      <div data-cy="event-confirmation" id="event-confirmation" class="success-msg hidden"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Tipos de Evento Configurados</h2>
+      <div data-cy="events-list" id="events-list" class="events-list">
+        <!-- Se renderizan dinámicamente -->
+      </div>
+      <p data-cy="events-empty" id="events-empty" class="empty-msg hidden">
+        Aún no has configurado tipos de eventos. Completá el formulario para comenzar.
+      </p>
+    </section>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- VISTA PÚBLICA - MÓDULO 4: Proceso de Reserva (Booking)       -->
+  <!-- ============================================================ -->
+  <main id="view-public" class="view">
+
+    <div class="stepper">
+      <span data-cy="step-indicator-1" class="step active">1. Tipo</span>
+      <span data-cy="step-indicator-2" class="step">2. Fecha y Hora</span>
+      <span data-cy="step-indicator-3" class="step">3. Datos</span>
+      <span data-cy="step-indicator-4" class="step">4. Confirmación</span>
+    </div>
+
+    <!-- Paso 1: catálogo -->
+    <section id="step-1" class="booking-step panel active-step">
+      <h2>Elegí un tipo de evento</h2>
+      <div data-cy="event-catalog" id="event-catalog" class="catalog"></div>
+      <p data-cy="catalog-empty" id="catalog-empty" class="empty-msg hidden">
+        El profesional no tiene servicios disponibles actualmente.
+      </p>
+    </section>
+
+    <!-- Paso 2: fecha y hora -->
+    <section id="step-2" class="booking-step panel">
+      <h2>Elegí fecha y horario</h2>
+      <p><strong>Evento seleccionado:</strong> <span data-cy="selected-event-name" id="selected-event-name"></span></p>
+
+      <label>Fecha *</label>
+      <input type="date" data-cy="date-input" id="date-input" />
+
+      <div data-cy="slots-container" id="slots-container" class="slots-container"></div>
+
+      <div data-cy="booking-error-step2" id="booking-error-step2" class="error-msg hidden"></div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" onclick="goToStep(1)">Volver</button>
+        <button type="button" data-cy="continue-to-data" class="btn-primary" onclick="goToStep3()">Continuar</button>
+      </div>
+    </section>
+
+    <!-- Paso 3: datos del invitado -->
+    <section id="step-3" class="booking-step panel">
+      <h2>Completá tus datos</h2>
+
+      <div class="summary-box" data-cy="booking-summary" id="booking-summary"></div>
+
+      <label>Nombre *</label>
+      <input type="text" data-cy="guest-name-input" id="guest-name-input" placeholder="Nombre" />
+
+      <label>Apellido *</label>
+      <input type="text" data-cy="guest-lastname-input" id="guest-lastname-input" placeholder="Apellido" />
+
+      <label>Correo electrónico *</label>
+      <input type="email" data-cy="guest-email-input" id="guest-email-input" placeholder="Email" />
+
+      <div data-cy="booking-error-step3" id="booking-error-step3" class="error-msg hidden"></div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" onclick="goToStep(2)">Volver</button>
+        <button type="button" data-cy="submit-booking" class="btn-primary" onclick="confirmBooking()">Confirmar reserva</button>
+      </div>
+    </section>
+
+    <!-- Paso 4: confirmación -->
+    <section id="step-4" class="booking-step panel">
+      <div data-cy="booking-confirmation" id="booking-confirmation" class="confirmation-box"></div>
+      <button type="button" class="btn-secondary" onclick="resetBookingFlow()">Hacer otra reserva</button>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
