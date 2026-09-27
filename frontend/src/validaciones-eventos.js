@@ -25,11 +25,15 @@ function validarTipoEvento(datos) {
 
 /**
  * Verifica si el nombre propuesto ya existe dentro del listado existente.
+ * Si se proporciona eventoIdActual, lo excluye de la búsqueda (útil para edición).
  */
-function esNombreEventoDuplicado(nombre, listaEventos) {
+function esNombreEventoDuplicado(nombre, listaEventos, eventoIdActual = null) {
   if (!nombre || !Array.isArray(listaEventos)) return false;
   const nombreNormalizado = nombre.trim().toLowerCase();
-  return listaEventos.some(evento => evento.nombre.trim().toLowerCase() === nombreNormalizado);
+  return listaEventos.some(evento =>
+    evento.nombre.trim().toLowerCase() === nombreNormalizado
+    && evento.id !== eventoIdActual
+  );
 }
 
 module.exports = {

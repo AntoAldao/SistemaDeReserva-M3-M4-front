@@ -67,3 +67,68 @@ describe('M03 - Validaciones de Tipos de Evento', () => {
   });
 
 });
+
+// ================================================
+// TESTS DE EDICIÓN DE EVENTOS
+// ================================================
+
+describe('M03 - Edición de Tipos de Evento', () => {
+
+  // Test 1: Validar evento editado con datos válidos
+  test('1. Retorna valido:true al editar evento con todos los campos correctos', () => {
+    const eventoEditado = {
+      nombre: 'Consulta Nutricional',
+      duracion: 30,
+      modalidad: 'Presencial'
+    };
+    const resultado = validarTipoEvento(eventoEditado);
+    expect(resultado.valido).toBe(true);
+    expect(resultado.error).toBeNull();
+  });
+
+  // Test 2: Detectar nombre duplicado al intentar cambiar nombre
+  test('2. Retorna true si se intenta cambiar a nombre duplicado (diferente ID)', () => {
+    const eventosExistentes = [
+      { id: 'evt-1', nombre: 'Consulta Inicial' },
+      { id: 'evt-2', nombre: 'Entrevista Técnica' }
+    ];
+    // Editando evt-1 e intentando cambiar a nombre de evt-2
+    const resultado = esNombreEventoDuplicado('Entrevista Técnica', eventosExistentes, 'evt-1');
+    expect(resultado).toBe(true);
+  });
+
+  // Test 3: Permitir mantener el mismo nombre al editar
+  test('3. Retorna false cuando se mantiene el mismo nombre del evento siendo editado', () => {
+    const eventosExistentes = [
+      { id: 'evt-1', nombre: 'Consulta Inicial' },
+      { id: 'evt-2', nombre: 'Entrevista Técnica' }
+    ];
+    // Editando evt-1 con su propio nombre (sin cambios)
+    const resultado = esNombreEventoDuplicado('Consulta Inicial', eventosExistentes, 'evt-1');
+    expect(resultado).toBe(false);
+  });
+
+  // Test 4: Rechazar duración inválida al editar
+  test('4. Retorna valido:false si se intenta cambiar a duración no permitida', () => {
+    const eventoConDuracionInvalida = {
+      nombre: 'Taller Grupal',
+      duracion: 25 // 25 no está entre [15, 30, 45, 60]
+    };
+    const resultado = validarTipoEvento(eventoConDuracionInvalida);
+    expect(resultado.valido).toBe(false);
+    expect(resultado.error).toBe('Duración no permitida');
+  });
+
+  // Test 5: Rechazar modalidad inválida al editar
+  test('5. Retorna valido:false si se intenta cambiar a modalidad no válida', () => {
+    const eventoConModalidadInvalida = {
+      nombre: 'Sesión Online',
+      duracion: 45,
+      modalidad: 'Híbrida' // No es Presencial, Virtual o Ambas
+    };
+    const resultado = validarTipoEvento(eventoConModalidadInvalida);
+    expect(resultado.valido).toBe(false);
+    expect(resultado.error).toBe('Modalidad no válida');
+  });
+
+});
