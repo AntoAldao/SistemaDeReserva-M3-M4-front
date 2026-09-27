@@ -134,15 +134,28 @@ describe('M03 - Edición de Tipos de Evento', () => {
 });
 
 // ================================================
-// TESTS DE DATOS AUSENTES
+// TESTS DE CASOS BORDE (Ignacio Berridy)
 // ================================================
 
-describe('M03 - Manejo de datos ausentes', () => {
+describe('M03 - Casos borde de validación de Tipos de Evento', () => {
 
-  test('6. Retorna valido:false cuando no se envían datos del evento', () => {
+  // Test 1: Caso de error (no se envía ningún dato del evento)
+  test('1. Retorna valido:false cuando no se envían datos del evento', () => {
     const resultado = validarTipoEvento(null);
     expect(resultado.valido).toBe(false);
     expect(resultado.error).toBe('No se enviaron datos');
+  });
+
+  // Test 2: Caso límite (la duración llega como string desde el formulario)
+  test('2. Retorna valido:true cuando la duración permitida llega como string', () => {
+    const eventoDuracionTexto = {
+      nombre: 'Mentoría',
+      duracion: '45', // el <select> del formulario entrega el valor como texto
+      modalidad: 'Ambas'
+    };
+    const resultado = validarTipoEvento(eventoDuracionTexto);
+    expect(resultado.valido).toBe(true);
+    expect(resultado.error).toBeNull();
   });
 
 });

@@ -61,15 +61,31 @@ describe('M04 - Validaciones del Proceso de Reserva (Booking Público)', () => {
     expect(resultado).toBe(true);
   });
 
-  test('6. Retorna valido:false cuando no se envían datos del invitado', () => {
+});
+
+// ================================================
+// TESTS DE CASOS BORDE (Ignacio Berridy)
+// ================================================
+
+describe('M04 - Casos borde del Proceso de Reserva', () => {
+
+  // Test 1: Caso de error (no se envía ningún dato del invitado)
+  test('1. Retorna valido:false cuando no se envían datos del invitado', () => {
     const resultado = validarDatosInvitado(null);
     expect(resultado.valido).toBe(false);
     expect(resultado.error).toBe('No se enviaron datos del invitado');
   });
 
-  test('7. Retorna false si el horario figura en una lista personalizada de ocupados', () => {
+  // Test 2: Caso de error (horario ocupado según una lista distinta a la por defecto)
+  test('2. Retorna false si el horario figura en una lista personalizada de ocupados', () => {
     const horariosOcupados = ['09:00', '15:30'];
     const resultado = esSlotDisponible('15:30', horariosOcupados);
+    expect(resultado).toBe(false);
+  });
+
+  // Test 3: Caso límite (no se seleccionó ningún horario)
+  test('3. Retorna false cuando no se selecciona ningún horario', () => {
+    const resultado = esSlotDisponible(undefined);
     expect(resultado).toBe(false);
   });
 
