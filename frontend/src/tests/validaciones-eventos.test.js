@@ -132,3 +132,17 @@ describe('M03 - Edición de Tipos de Evento', () => {
   });
 
 });
+
+// ================================================
+// TESTS DE DATOS AUSENTES
+// ================================================
+
+describe('M03 - Manejo de datos ausentes', () => {
+
+  test('6. Retorna valido:false cuando no se envían datos del evento', () => {
+    const resultado = validarTipoEvento(null);
+    expect(resultado.valido).toBe(false);
+    expect(resultado.error).toBe('No se enviaron datos');
+  });
+
+});

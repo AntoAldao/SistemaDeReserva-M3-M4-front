@@ -61,4 +61,16 @@ describe('M04 - Validaciones del Proceso de Reserva (Booking Público)', () => {
     expect(resultado).toBe(true);
   });
 
+  test('6. Retorna valido:false cuando no se envían datos del invitado', () => {
+    const resultado = validarDatosInvitado(null);
+    expect(resultado.valido).toBe(false);
+    expect(resultado.error).toBe('No se enviaron datos del invitado');
+  });
+
+  test('7. Retorna false si el horario figura en una lista personalizada de ocupados', () => {
+    const horariosOcupados = ['09:00', '15:30'];
+    const resultado = esSlotDisponible('15:30', horariosOcupados);
+    expect(resultado).toBe(false);
+  });
+
 });
