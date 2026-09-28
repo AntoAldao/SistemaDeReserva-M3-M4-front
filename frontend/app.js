@@ -144,8 +144,17 @@ function cancelEdit() {
 }
 
 function deleteEvent(id) {
+  // 1. Confirmación explícita (M03-RNF02)
+  const confirmar = window.confirm("¿Estás seguro de que querés eliminar este tipo de evento?");
+  if (!confirmar) return; // Si el usuario cancela, no se borra
+
+  // 2. Eliminación
   events = events.filter((e) => e.id !== id);
   renderEventsList();
+
+  // 3. Feedback de éxito (M03-RNF01 y Escenario 3)
+  const confirmacionBox = document.getElementById("event-confirmation");
+  showSuccess(confirmacionBox, "Tipo de evento borrado.");
 }
 
 function toggleEventActive(id) {

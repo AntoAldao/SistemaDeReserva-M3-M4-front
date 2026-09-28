@@ -36,7 +36,31 @@ function esNombreEventoDuplicado(nombre, listaEventos, eventoIdActual = null) {
   );
 }
 
+
+
+/**
+ * Validar Ids de eliminacion de Eventos
+ */
+
+function eliminarTipoEvento(listaEventos, idAEliminar) {
+  if (!idAEliminar || idAEliminar.trim() === '') {
+    return { error: "ID inválido", eventos: listaEventos };
+  }
+  
+  const existe = listaEventos.some(e => e.id === idAEliminar);
+  if (!existe) {
+    return { error: "El evento no existe", eventos: listaEventos };
+  }
+  
+  // Devuelve la lista filtrada sin el evento eliminado
+  return { 
+    error: null, 
+    eventos: listaEventos.filter(e => e.id !== idAEliminar) 
+  };
+}
+
 module.exports = {
   validarTipoEvento,
-  esNombreEventoDuplicado
+  esNombreEventoDuplicado,
+  eliminarTipoEvento
 };
