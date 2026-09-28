@@ -1,5 +1,5 @@
 // src/validaciones-eventos.test.js
-const { validarTipoEvento, esNombreEventoDuplicado } = require('../validaciones-eventos');
+const { validarTipoEvento, esNombreEventoDuplicado, eliminarTipoEvento } = require('../validaciones-eventos');
 
 describe('M03 - Validaciones de Tipos de Evento', () => {
 
@@ -159,3 +159,57 @@ describe('M03 - Casos borde de validación de Tipos de Evento', () => {
   });
 
 });
+
+
+// ================================================
+// TESTS DE ELIMINACION DE EVENTOS (Ramos Ignacio)
+// ================================================
+
+
+describe('M03 - Casos de lógica de eliminación de Tipos de Evento', () => {
+  
+  const listaBase = [
+    { id: 'evt-1', nombre: 'Consulta Inicial' },
+    { id: 'evt-2', nombre: 'Entrevista Técnica' }
+  ];
+
+  // Test 1: Caso exitoso (elimina correctamente un evento que sí existe)
+  test('1. Retorna error:null y la lista actualizada cuando el ID del evento existe', () => {
+    const resultado = eliminarTipoEvento(listaBase, 'evt-1');
+    expect(resultado.error).toBeNull();
+    expect(resultado.eventos).toHaveLength(1);
+    expect(resultado.eventos[0].id).toBe('evt-2');
+  });
+
+  // Test 2: Caso de error (se intenta borrar un ID que no pertenece a ningún evento)
+  test('2. Retorna error y la lista original intacta cuando el ID no existe', () => {
+    const resultado = eliminarTipoEvento(listaBase, 'evt-99');
+    expect(resultado.error).toBe('El evento no existe');
+    expect(resultado.eventos).toHaveLength(2);
+  });
+
+  // Test 3: Caso de error (ausencia de datos en el ID)
+  test('3. Retorna error por ID inválido cuando se envía un valor nulo', () => {
+    const resultado = eliminarTipoEvento(listaBase, null);
+    expect(resultado.error).toBe('ID inválido');
+    expect(resultado.eventos).toHaveLength(2);
+  });
+
+  // Test 4: Caso borde (el ID llega como un string compuesto solo por espacios)
+  test('4. Retorna error por ID inválido cuando el string está vacío o tiene solo espacios', () => {
+    const resultado = eliminarTipoEvento(listaBase, '   ');
+    expect(resultado.error).toBe('ID inválido');
+    expect(resultado.eventos).toHaveLength(2);
+  });
+
+  // Test 5: Caso límite (la lista inicial contiene un solo evento y se elimina)
+  test('5. Retorna error:null y deja la lista de eventos completamente vacía', () => {
+    const listaUnica = [{ id: 'evt-1', nombre: 'Consulta Inicial' }];
+    const resultado = eliminarTipoEvento(listaUnica, 'evt-1');
+    expect(resultado.error).toBeNull();
+    expect(resultado.eventos).toHaveLength(0);
+  });
+
+});
+
+
