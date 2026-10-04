@@ -230,7 +230,7 @@ function renderCatalog() {
   const emptyMsg = document.getElementById("catalog-empty");
   catalog.innerHTML = "";
 
-  const activeEvents = events.filter((e) => e.activo);
+  const activeEvents = events.filter((e) => e.activo !== undefined);
 
   if (activeEvents.length === 0) {
     emptyMsg.classList.remove("hidden");
