@@ -1,3 +1,4 @@
+/* exported showView, goToStep3, confirmBooking */
 // =====================================================================
 // AgendaYA - Frontend mínimo TP6 (M03 - Tipos de Evento / M04 - Booking)
 // Datos guardados en memoria (no hay backend real).
