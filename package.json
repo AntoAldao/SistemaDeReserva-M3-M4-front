@@ -4,7 +4,11 @@
   "description": "Módulos: **M03 - Tipos de Evento** / **M04 - Proceso de Reserva (Booking Público)**",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "build": "node scripts/build.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +21,12 @@
   },
   "homepage": "https://github.com/DiandraMalca/SistemaDeReserva-M3-M4-front#readme",
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "cypress": "^16.1.0",
-    "jest": "^30.5.2"
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "jest": "^30.5.2",
+    "prettier": "^3.9.9"
   }
 }
