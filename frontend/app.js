@@ -79,7 +79,7 @@ function handleEventSubmit() {
 
   // Validación: nombre de evento duplicado (excepto si estoy editando el mismo)
   const nombreDuplicado = events.some(
-    (ev) => ev.nombre.toLowerCase() === nombre.toLowerCase() && ev.id !== editingEventId
+    (ev) => ev.nombre.toLowerCase() === nombre.toLowerCase() && ev.id !== editingEventId,
   );
   if (nombreDuplicado) {
     showError(errorBox, "Ya existe un tipo de evento con ese nombre.");
@@ -97,7 +97,10 @@ function handleEventSubmit() {
     ev.confirmacion = confirmacion.value;
     ev.descripcion = descripcion;
 
-    showSuccess(document.getElementById("event-confirmation"), `Tipo de evento "${nombre}" modificado correctamente.`);
+    showSuccess(
+      document.getElementById("event-confirmation"),
+      `Tipo de evento "${nombre}" modificado correctamente.`,
+    );
     cancelEdit();
   } else {
     // Crear nuevo evento
@@ -111,7 +114,10 @@ function handleEventSubmit() {
       activo: true,
     };
     events.push(newEvent);
-    showSuccess(document.getElementById("event-confirmation"), `Tipo de evento "${nombre}" creado correctamente.`);
+    showSuccess(
+      document.getElementById("event-confirmation"),
+      `Tipo de evento "${nombre}" creado correctamente.`,
+    );
     document.getElementById("event-form").reset();
   }
 
@@ -192,9 +198,15 @@ function renderEventsList() {
       </div>
     `;
 
-    row.querySelector(`[data-cy="edit-event-${ev.id}"]`).addEventListener("click", () => editEvent(ev.id));
-    row.querySelector(`[data-cy="toggle-event-${ev.id}"]`).addEventListener("click", () => toggleEventActive(ev.id));
-    row.querySelector(`[data-cy="delete-event-${ev.id}"]`).addEventListener("click", () => deleteEvent(ev.id));
+    row
+      .querySelector(`[data-cy="edit-event-${ev.id}"]`)
+      .addEventListener("click", () => editEvent(ev.id));
+    row
+      .querySelector(`[data-cy="toggle-event-${ev.id}"]`)
+      .addEventListener("click", () => toggleEventActive(ev.id));
+    row
+      .querySelector(`[data-cy="delete-event-${ev.id}"]`)
+      .addEventListener("click", () => deleteEvent(ev.id));
 
     list.appendChild(row);
   });

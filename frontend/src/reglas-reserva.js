@@ -3,7 +3,7 @@
 // respetar la antelación mínima configurada por el administrador.
 
 function parseFechaISO(fechaIso) {
-  if (typeof fechaIso !== 'string') return null;
+  if (typeof fechaIso !== "string") return null;
 
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(fechaIso.trim());
   if (!match) return null;
@@ -13,11 +13,7 @@ function parseFechaISO(fechaIso) {
   const dia = Number(match[3]);
   const fecha = new Date(anio, mes - 1, dia);
 
-  if (
-    fecha.getFullYear() !== anio ||
-    fecha.getMonth() !== mes - 1 ||
-    fecha.getDate() !== dia
-  ) {
+  if (fecha.getFullYear() !== anio || fecha.getMonth() !== mes - 1 || fecha.getDate() !== dia) {
     return null;
   }
 
@@ -46,13 +42,17 @@ function esFechaReservable(fechaIso, referencia = new Date()) {
  * ahora + antelacionHoras. Menos que ese mínimo no alcanza.
  */
 function cumpleAntelacionMinima(fechaIso, hora, antelacionHoras, ahora = new Date()) {
-  if (typeof antelacionHoras !== 'number' || !Number.isFinite(antelacionHoras) || antelacionHoras < 0) {
+  if (
+    typeof antelacionHoras !== "number" ||
+    !Number.isFinite(antelacionHoras) ||
+    antelacionHoras < 0
+  ) {
     return false;
   }
   if (!(ahora instanceof Date) || Number.isNaN(ahora.getTime())) return false;
 
   const fecha = parseFechaISO(fechaIso);
-  if (!fecha || typeof hora !== 'string') return false;
+  if (!fecha || typeof hora !== "string") return false;
 
   const hm = /^(\d{2}):(\d{2})$/.exec(hora.trim());
   if (!hm) return false;
@@ -68,7 +68,7 @@ function cumpleAntelacionMinima(fechaIso, hora, antelacionHoras, ahora = new Dat
     horas,
     minutos,
     0,
-    0
+    0,
   );
 
   const limite = ahora.getTime() + antelacionHoras * 60 * 60 * 1000;
