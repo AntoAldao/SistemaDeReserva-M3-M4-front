@@ -1,4 +1,5 @@
 /* exported showView, goToStep3, confirmBooking */
+/* global obtenerEventosPublicos */
 // =====================================================================
 // AgendaYA - Frontend mínimo TP6 (M03 - Tipos de Evento / M04 - Booking)
 // Datos guardados en memoria (no hay backend real).
@@ -230,7 +231,7 @@ function renderCatalog() {
   const emptyMsg = document.getElementById("catalog-empty");
   catalog.innerHTML = "";
 
-  const activeEvents = events.filter((e) => e.activo !== undefined);
+  const activeEvents = obtenerEventosPublicos(events);
 
   if (activeEvents.length === 0) {
     emptyMsg.classList.remove("hidden");
