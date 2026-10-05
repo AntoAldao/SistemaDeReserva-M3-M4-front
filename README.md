@@ -91,3 +91,4 @@ Pautas para sumar nuevos tests E2E:
 
 - Los datos se guardan **en memoria** (se pierden al recargar la página), tal como permite la consigna del TP6. No hay backend real.
 - El frontend viene pre-cargado con 2 tipos de evento de ejemplo para poder probar el flujo de booking sin tener que crear uno primero.
+- El pipeline despliega automáticamente a desarrollo (canal `dev` de Firebase Hosting) en cada merge a `develop`, y a producción (https://agendaya-g7.web.app) en cada merge a `main`, previa aprobación manual del environment `production`.
