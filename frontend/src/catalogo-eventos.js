@@ -4,10 +4,11 @@
 
 /**
  * Devuelve los tipos de evento que se muestran en la página pública de reservas.
+ * Solo se publican los eventos activos (INC-0123).
  */
 function obtenerEventosPublicos(eventos) {
   if (!Array.isArray(eventos)) return [];
-  return eventos.filter((e) => e.activo !== undefined);
+  return eventos.filter((e) => e.activo === true);
 }
 
 if (typeof module !== "undefined" && module.exports) {
