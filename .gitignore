@@ -24,3 +24,7 @@ Thumbs.db
 
 # Build
 dist/
+
+# Firebase
+.firebase/
+firebase-debug.log*
