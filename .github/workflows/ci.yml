@@ -46,10 +46,31 @@ jobs:
           path: dist/
           retention-days: 7
 
+  e2e-tests:
+    name: Tests E2E (Cypress)
+    needs: quality-check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Ejecutar tests E2E (Cypress)
+        uses: cypress-io/github-action@v6
+        with:
+          start: npx http-server . -p 5500 -s
+          wait-on: "http://localhost:5500/frontend/index.html"
+
   # Merge a develop: despliegue automático al ambiente de desarrollo (canal "dev" de Firebase Hosting).
   deploy-dev:
     name: Deploy a desarrollo (Firebase Hosting)
-    needs: quality-check
+    needs: [quality-check, e2e-tests]
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     environment:
@@ -81,7 +102,7 @@ jobs:
   # la aprobación manual de los revisores configurados en GitHub.
   deploy-prod:
     name: Deploy a producción (Firebase Hosting)
-    needs: quality-check
+    needs: [quality-check, e2e-tests]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
